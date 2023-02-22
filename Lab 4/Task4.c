@@ -9,8 +9,7 @@ int main(){
     pid_t pid1;
     pid_t pid2;
 
-    pid1 = fork();
-    pid2 = fork();
+    (pid1 = fork()) && (pid2 = fork());
     if(pid1 == 0 ){
         printf("Child1 process id =%d  with the parent process id =%d\n",getpid(),getppid());
         exit(0);
