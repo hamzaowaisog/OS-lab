@@ -13,7 +13,7 @@ public class run implements Runnable {
     @Override
     public void run() {
         int k=0 ;
-        while (k< arr2[0].length){
+        while (k< arr3[0].length){
             arr3[i][k] = matrixmul(arr1, arr2, i, k);
             k++;
         }
