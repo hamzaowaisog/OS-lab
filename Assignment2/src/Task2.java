@@ -55,7 +55,9 @@ public class Task2 {
         while (remainingTasks >0){
             Process nextTask = null;
             int sh_B_time = Integer.MAX_VALUE;
+
             
+
         }
 
 
