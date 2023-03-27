@@ -66,10 +66,6 @@ public class Task2 {
 //            System.out.println();
 //        }
 
-
-
-
-
     }
 
     public static void FCFS(List<Process> tasks) {
@@ -141,10 +137,23 @@ public class Task2 {
             j=i+1;
             while(j<sortedProcess.size()){
                 if(sortedProcess.get(i).priority==sortedProcess.get(j).priority){
-                    readyqueue.add(sortedProcess.get(i))
+                    readyqueue.add(sortedProcess.get(i));
+                    readyqueue.add(sortedProcess.get(j));
                 }
+                j++;
             }
+            j=0;
+            i++;
         }
+        for(Process task : sortedProcess){
+            System.out.println("Priority : "+task.priority);
+        }
+        System.out.println("Size");
+        System.out.println(readyqueue.size());
+        System.out.println(readyqueue.peek().priority);
+        
+
+
 
     }
 
