@@ -130,66 +130,9 @@ public class Task2 {
     }
     public static void priorityscheduling(List <Process> tasks){
         Queue <Process> readyqueue = new LinkedList<>();
-        int currenttime=0;
-        int quantum =10;
-
-        tasks.sort(new Comparator<Process>() {
-            @Override
-            public int compare(Process o1, Process o2) {
-                return Integer.compare(o1.priority,o2.priority);
-            }
-        });
-        Collections.reverse(tasks);
-//        int j=0;
-//
-//        for(int i =0 ; i< tasks.size();i++){
-//            j=i+1;
-//           while (j<tasks.size()){
-//                if(tasks.get(i).priority==tasks.get(j).priority){
-//                    readyqueue.add(tasks.get(j));
-//                    readyqueue.add(tasks.get(i));
-//                    tasks.remove(i);
-//                }
-//                j++;
-//            }
-//           j=0;
-//
-//        }
-              for(Process task : tasks) {
-//            if (!task.executed) {
-//                if (task.priority == readyqueue.peek().priority) {
-//                    while(!readyqueue.isEmpty()) {
-//                        if (readyqueue.peek().bursttime >= quantum) {
-//                            currenttime += quantum;
-//                            readyqueue.peek().bursttime -= quantum;
-//                            readyqueue.add(readyqueue.remove());
-//                        }
-//                        else{
-//                            currenttime += task.bursttime;
-//                            readyqueue.peek().bursttime -= readyqueue.peek().bursttime;
-//                            readyqueue.peek().turnaroundtime = currenttime;
-//                            task = readyqueue.peek();
-//                            readyqueue.remove();
-//                            task.executed =true;
-//                        }
-//                    }
-//                    continue;
-//                } else {
-                    if (currenttime < task.starttime) {
-                        currenttime = task.starttime;
-                    }
-                    task.waitingtime = currenttime - task.starttime;
-                    task.turnaroundtime = task.waitingtime + task.bursttime;
-                    currenttime = currenttime + task.bursttime;
-                }
+        
 
 
 
     }
-        }
-
-
-
-
-    //}
-//}
+}
