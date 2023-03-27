@@ -167,28 +167,12 @@ public class Task2 {
                             if (i == sortedProcess.size()) {
                                 i = 0;
                             }
-
                         }
                     }
-
-
-                }
-            } else {
-                if (!sortedProcess.get(i).executed) {
-                    currentTime += sortedProcess.get(i).remainingtime;
-                    sortedProcess.get(i).turnaroundtime = currentTime;
-                    sortedProcess.get(i).waitingtime = sortedProcess.get(i).turnaroundtime - sortedProcess.get(i).bursttime;
-                    System.out.println("Task " + sortedProcess.get(i).name + " :");
-                    System.out.println("Priority : " + sortedProcess.get(i).priority);
-                    System.out.println("Burst Time : " + sortedProcess.get(i).bursttime);
-                    System.out.println("TurnAround Time : " + sortedProcess.get(i).turnaroundtime);
-                    System.out.println("Waiting Time : " + sortedProcess.get(i).waitingtime);
-                    System.out.println();
-
                 }
             }
-
         }
+
         for (Process task : sortedProcess) {
             if (!task.executed) {
                 currentTime += task.remainingtime;
