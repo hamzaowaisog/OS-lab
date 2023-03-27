@@ -48,24 +48,15 @@ public class Task2 {
         }
         List<Process> tasks2 = new ArrayList<Process>();
 
-        tasks2.add(new Process("T1", rn.nextInt(10), 25));
-        tasks2.add(new Process("T2", rn.nextInt(10), 10));
-        tasks2.add(new Process("T3", rn.nextInt(10), 20));
-        tasks2.add(new Process("T4", rn.nextInt(10), 35));
-        tasks2.add(new Process("T5", rn.nextInt(10), 10));
+        tasks2.add(new Process("T1", 10, 25));
+        tasks2.add(new Process("T2", 8, 10));
+        tasks2.add(new Process("T3", 10, 20));
+        tasks2.add(new Process("T4", 6, 35));
+        tasks2.add(new Process("T5", 5, 10));
 
         System.out.println("Priority Scheduling ");
         System.out.println();
         priorityscheduling(tasks2);
-//        for (Process task : tasks2) {
-//            System.out.println("Task " + task.name + ": ");
-//            System.out.println("Burst Time "+ task.bursttime);
-//            System.out.println("Priority: " + task.priority);
-//            System.out.println("Waiting time: " + task.waitingtime);
-//            System.out.println("Turnaround time: " + task.turnaroundtime);
-//            System.out.println();
-//        }
-
     }
 
     public static void FCFS(List<Process> tasks) {
@@ -91,7 +82,7 @@ public class Task2 {
     public static void SJFPreemptive(List<Process> tasks) {
         int currentTime = 0;
         int remainingTasks = tasks.size();
-        int i =0;
+        int i = 0;
 
         while (remainingTasks > 0) {
             Process nextTask = null;
@@ -112,10 +103,10 @@ public class Task2 {
 
                 if (nextTask.bursttime == 0) {
                     nextTask.executed = true;
-                    nextTask.turnaroundtime = currentTime +1;
-                    nextTask.waitingtime = currentTime+1-i;
+                    nextTask.turnaroundtime = currentTime + 1;
+                    nextTask.waitingtime = currentTime + 1 - i;
                     remainingTasks--;
-                    i=0;
+                    i = 0;
                 }
 
             }
@@ -124,37 +115,96 @@ public class Task2 {
 
         }
     }
-    public static void priorityscheduling(List <Process> tasks) {
+
+    public static void priorityscheduling(List<Process> tasks) {
         List<Process> sortedProcess = new ArrayList<>(tasks);
         Queue<Process> readyqueue = new LinkedList<>();
 
         sortedProcess.sort((p1, p2) -> p2.priority - p1.priority);
         int currentTime = 0;
         int quantum = 10;
-        int i =0;
-        int j=0;
-        while(i<sortedProcess.size()){
-            j=i+1;
-            while(j<sortedProcess.size()){
-                if(sortedProcess.get(i).priority==sortedProcess.get(j).priority){
+        int i = 0;
+        int j = 0;
+        while (i < sortedProcess.size()) {
+            j = i + 1;
+            while (j < sortedProcess.size()) {
+                if (sortedProcess.get(i).priority == sortedProcess.get(j).priority) {
                     readyqueue.add(sortedProcess.get(i));
                     readyqueue.add(sortedProcess.get(j));
                 }
                 j++;
             }
-            j=0;
+            j = 0;
             i++;
         }
-        for(Process task : sortedProcess){
-            System.out.println("Priority : "+task.priority);
+        i = 0;
+        int burst = 0;
+        for (; i < sortedProcess.size(); i++) {
+            if (!readyqueue.isEmpty()) {
+                if (sortedProcess.get(i).priority == readyqueue.peek().priority && !sortedProcess.get(i).executed) {
+                    while (!readyqueue.isEmpty() && readyqueue.peek().priority == sortedProcess.get(i).priority) {
+                        burst = Math.min(readyqueue.peek().remainingtime, quantum);
+                        readyqueue.peek().remainingtime -= burst;
+                        currentTime += burst;
+                        if (readyqueue.peek().remainingtime == 0) {
+                            readyqueue.peek().executed = true;
+                            sortedProcess.get(i).executed = true;
+                            readyqueue.peek().turnaroundtime = currentTime;
+                            readyqueue.peek().waitingtime = readyqueue.peek().turnaroundtime - readyqueue.peek().bursttime;
+                            System.out.println("Task " + readyqueue.peek().name + " :");
+                            System.out.println("Priority : " + readyqueue.peek().priority);
+                            System.out.println("Burst Time : " + readyqueue.peek().bursttime);
+                            System.out.println("TurnAround Time : " + readyqueue.peek().turnaroundtime);
+                            System.out.println("Waititng Time : " + readyqueue.peek().waitingtime);
+                            System.out.println();
+                            readyqueue.remove();
+
+
+                        } else {
+                            readyqueue.add(readyqueue.peek());
+                            readyqueue.remove();
+                            i++;
+                            if (i == sortedProcess.size()) {
+                                i = 0;
+                            }
+
+                        }
+                    }
+
+
+                }
+            } else {
+                if (!sortedProcess.get(i).executed) {
+                    currentTime += sortedProcess.get(i).remainingtime;
+                    sortedProcess.get(i).turnaroundtime = currentTime;
+                    sortedProcess.get(i).waitingtime = sortedProcess.get(i).turnaroundtime - sortedProcess.get(i).bursttime;
+                    System.out.println("Task " + sortedProcess.get(i).name + " :");
+                    System.out.println("Priority : " + sortedProcess.get(i).priority);
+                    System.out.println("Burst Time : " + sortedProcess.get(i).bursttime);
+                    System.out.println("TurnAround Time : " + sortedProcess.get(i).turnaroundtime);
+                    System.out.println("Waiting Time : " + sortedProcess.get(i).waitingtime);
+                    System.out.println();
+
+                }
+            }
+
         }
-        System.out.println("Size");
-        System.out.println(readyqueue.size());
-        System.out.println(readyqueue.peek().priority);
-        
-
-
+        for (Process task : sortedProcess) {
+            if (!task.executed) {
+                currentTime += task.remainingtime;
+                task.turnaroundtime = currentTime;
+                task.waitingtime = task.turnaroundtime - task.bursttime;
+                System.out.println("Task " + task.name + " :");
+                System.out.println("Priority : " + task.priority);
+                System.out.println("Burst Time : " + task.bursttime);
+                System.out.println("TurnAround Time : " + task.turnaroundtime);
+                System.out.println("Waiting Time : " + task.waitingtime);
+                System.out.println();
+            }
+        }
 
     }
-
 }
+
+
+
