@@ -56,15 +56,15 @@ public class Task2 {
 
         System.out.println("Priority Scheduling ");
         System.out.println();
-        priorityscheduling(tasks1);
-        for (Process task : tasks) {
-            System.out.println("Task " + task.name + ": ");
-            System.out.println("Burst Time "+ task.bursttime);
-            System.out.println("Priority: " + task.priority);
-            System.out.println("Waiting time: " + task.waitingtime);
-            System.out.println("Turnaround time: " + task.turnaroundtime);
-            System.out.println();
-        }
+        priorityscheduling(tasks2);
+//        for (Process task : tasks2) {
+//            System.out.println("Task " + task.name + ": ");
+//            System.out.println("Burst Time "+ task.bursttime);
+//            System.out.println("Priority: " + task.priority);
+//            System.out.println("Waiting time: " + task.waitingtime);
+//            System.out.println("Turnaround time: " + task.turnaroundtime);
+//            System.out.println();
+//        }
 
 
 
@@ -128,11 +128,24 @@ public class Task2 {
 
         }
     }
-    public static void priorityscheduling(List <Process> tasks){
-        Queue <Process> readyqueue = new LinkedList<>();
-        
+    public static void priorityscheduling(List <Process> tasks) {
+        List<Process> sortedProcess = new ArrayList<>(tasks);
+        Queue<Process> readyqueue = new LinkedList<>();
 
-
+        sortedProcess.sort((p1, p2) -> p2.priority - p1.priority);
+        int currentTime = 0;
+        int quantum = 10;
+        int i =0;
+        int j=0;
+        while(i<sortedProcess.size()){
+            j=i+1;
+            while(j<sortedProcess.size()){
+                if(sortedProcess.get(i).priority==sortedProcess.get(j).priority){
+                    readyqueue.add(sortedProcess.get(i))
+                }
+            }
+        }
 
     }
+
 }
