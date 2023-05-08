@@ -1,0 +1,25 @@
+NAME : MUHAMMAD HAMZA
+SEC:BS-SE-4A
+ROLL NO: 21k-3815
+
+
+
+
+
+
+
+In this code, the customers and the barber are implemented as separate threads. The customer() function represents the behavior of a customer thread, and the barber() function represents the behavior of the barber thread.The main function initializes the semaphores and creates the barber and customer threads based on the user input for the number of customers and chairs. The pthread_create() function is used to create the threads, and the pthread_join() function is used to wait for the threads to finish.The customer thread simulates a customer arriving at the barber shop, entering the waiting room, waiting for the barber chair to become available, waking up the barber, waiting for the barber to finish cutting hair, and finally leaving the barber shop.The barber thread simulates the behavior of the barber, who sleeps until a customer arrives and wakes him up. The barber then cuts the customer's hair for a random amount of time and repeats the process until there are no more customers.
+
+QUEUE:
+Here's a generalized explanation of the order in which the customers are processed:
+
+1. The customers arrive at the barber shop in a random order.
+2. Each customer enters the waiting room (sem_wait(&waitingRoom)), and if there is space available, they proceed to the next step. Otherwise, they wait until there is an empty chair.
+3. The customer acquires the barber chair (sem_wait(&barberChair)) and releases their spot in the waiting room (sem_post(&waitingRoom)).
+4. The customer wakes up the barber (sem_post(&barberPillow)), indicating that they are ready to have their hair cut.
+5. The customer waits for the barber to finish cutting their hair (sem_wait(&seatBelt)). This step ensures that the customer remains in the chair until the haircut is complete.
+6. After the haircut is finished, the customer leaves the barber chair (sem_post(&barberChair)), indicating that the chair is available again.
+7. The customer leaves the barber shop.
+
+The barber thread sleeps until a customer arrives (sem_wait(&barberPillow)). When awakened, the barber cuts the customer's hair for a random amount of time and releases the customer (sem_post(&seatBelt)). The barber then repeats the process of sleeping and cutting hair until there are no more customers (allDone flag is set).
+
